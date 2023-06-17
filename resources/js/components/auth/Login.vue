@@ -21,25 +21,19 @@
             <!-- jquery validation -->
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Login <small>jQuery Validation</small></h3>
+                    <h3 class="card-title">Login</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form id="quickForm" novalidate="novalidate">
+                <form id="quickForm" novalidate="novalidate" @submit.prevent="login">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <input type="email" name="email" v-model="form.email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                        </div>
-                        <div class="form-group mb-0">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
-                                <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
-                            </div>
+                            <input type="password" v-model="form.password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -58,3 +52,25 @@
         <!--/.col (right) -->
     </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+    data(){
+        return{
+            form:{
+                'email':null,
+                'password':null,
+            }
+        }
+    },
+    methods:{
+         login(){
+            axios.post('/api/auth/login',this.form)
+                .then(res=>console.log(res.data))
+                .catch(error=>console.log(error.response.data))
+         }
+    }
+}
+</script>
